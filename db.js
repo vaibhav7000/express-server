@@ -4,15 +4,17 @@
 // by default the server listens at mongo://localhost:27071
 
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 // const dbUrl = 'mongodb://localhost:27071/name_of_database'
 // if the database is already present => our server will be connected to it else it will make new server in mongoDB
 
-const dbUrl = 'mongodb://localhost:27017/resturant';
+// const dbUrl = 'mongodb://localhost:27017/resturant';
+
 
 // this will connect the node JS server with the mongoDB server
 // this is procedure to connect
-mongoose.connect(dbUrl , {
+mongoose.connect(process.env.DB_URL , {
   useNewUrlParser:true,
   useUnifiedTopology:true,
 });

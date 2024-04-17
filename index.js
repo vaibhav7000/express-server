@@ -1,15 +1,16 @@
 const express = require('express');
 const bodyparser = require('body-parser');
-
+// establish the connection between the express server and mongoDB server
+const db = require('./db');
+require('dotenv').config();
 
 const application = express();
 application.use(bodyparser.json());
 
-// establish the connection between the express server and mongoDB server
-const db = require('./db');
+
 db.db;
 
-application.listen(3000,() => {
+application.listen(process.env.PORT,() => {
   console.log('sever is started at 3000 port');
 });
 
