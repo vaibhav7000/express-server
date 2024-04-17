@@ -1,20 +1,34 @@
 const express = require('express');
 const bodyparser = require('body-parser');
-// establish the connection between the express server and mongoDB server
-const db = require('./db');
-require('dotenv').config();
 
 const application = express();
+
+// establish the connection between the express server and mongoDB server
+const db = require('./db');
+db.db;
+
+// middleware
+require('dotenv').config();
+
+// middleware
 application.use(bodyparser.json());
 
 
-db.db;
+
+const whoReached = (req,res,next) => {
+  console.log(`${new Date().getMonth()+1} hit to the ${req.originalUrl}`);
+  // this is by default made by express to go to the next middleware;
+  next();
+};
+
+// through this syntax this will be called when any route API will hit
+// application.use(whoReached);
 
 application.listen(process.env.PORT,() => {
   console.log('sever is started at 3000 port');
 });
 
-application.get('/' , (req,res) =>{
+application.get('/' ,whoReached , (req,res) =>{
   res.send('Your are present on home page');
 })
 
@@ -23,6 +37,31 @@ const menuRouter = require('./routes/menu.routes');
 
 application.use('/person' , personRoutes);
 application.use('/menu' , menuRouter);
+
+
+// middlewares are the task (extra features) that will be performed through the help of functions between the request and the response phase (cycle) think that that task will be performed before the API callback function 
+
+// Authenticate means checking if he/she is part of our system
+// Authorization means he/she is the part of our system and limiting its power in that system
+
+// Authenication ----> Authorization
+
+
+// Passport JS will be used as a middleware to check if the user is authenticated our system or not just before the API callback function executed
+// the authentication will be performed on the basis of username and password (that is called passport local strategy)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // if we want to update a document in mongoDB => use PUT/PATCH but we have to provide which data we want to update and its updated value
 
