@@ -1,34 +1,34 @@
 const express = require('express');
 const bodyparser = require('body-parser');
-
 const application = express();
-
 // establish the connection between the express server and mongoDB server
 const db = require('./db');
-db.db;
-
 // middleware
 require('dotenv').config();
-
 // middleware
 application.use(bodyparser.json());
+const passport = require('passport');
+const localStrategy = require('passport-local').Strategy;
+db.db;
 
-
+application.use(passport.initialize());
+const authentication = require('./auth');
 
 const whoReached = (req,res,next) => {
   console.log(`${new Date().getMonth()+1} hit to the ${req.originalUrl}`);
   // this is by default made by express to go to the next middleware;
-  next();
+  next(); 
 };
 
-// through this syntax this will be called when any route API will hit
-// application.use(whoReached);
+// through this syntax we  will be call this middleware when any route API will hit
+application.use(whoReached);
 
 application.listen(process.env.PORT,() => {
   console.log('sever is started at 3000 port');
 });
 
-application.get('/' ,whoReached , (req,res) =>{
+
+application.get('/' ,authentication , (req,res) =>{
   res.send('Your are present on home page');
 })
 

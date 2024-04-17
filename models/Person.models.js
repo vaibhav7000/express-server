@@ -33,6 +33,15 @@ const personSchema = new mongoose.Schema({
     type :Number,
     default:0,
   },
+  username : {
+    type: String,
+    required : true,
+    unique : true,
+  },
+  password : {
+    type : String,
+    required : true,
+  },
 });
 
 // implement that blueprint into the mongoDB refer this as collections in database and we have to run this in index.js
