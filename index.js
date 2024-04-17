@@ -7,12 +7,10 @@ const db = require('./db');
 require('dotenv').config();
 // middleware
 application.use(bodyparser.json());
-const passport = require('passport');
-const localStrategy = require('passport-local').Strategy;
+const authPassport = require('./auth');
 db.db;
 
-application.use(passport.initialize());
-const authentication = require('./auth');
+application.use(authPassport.initialize());
 
 const whoReached = (req,res,next) => {
   console.log(`${new Date().getMonth()+1} hit to the ${req.originalUrl}`);
@@ -28,14 +26,14 @@ application.listen(process.env.PORT,() => {
 });
 
 
-application.get('/' ,authentication , (req,res) =>{
+application.get('/', (req,res) =>{
   res.send('Your are present on home page');
 })
 
 const personRoutes = require('./routes/Person.routes');
 const menuRouter = require('./routes/menu.routes');
 
-application.use('/person' , personRoutes);
+application.use('/person',authPassport.authenticate('local', {session : false}) , personRoutes);
 application.use('/menu' , menuRouter);
 
 

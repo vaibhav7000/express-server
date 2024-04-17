@@ -26,6 +26,5 @@ passort.use(new localStrategy(async(userName,password,done) => {
   }
 }));
 
-const authentication = passort.authenticate('local',{session : false});
 
-module.exports = authentication;
+module.exports = passort;
