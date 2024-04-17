@@ -13,7 +13,7 @@ passort.use(new localStrategy(async(userName,password,done) => {
       return done(null,false,{message : 'invalid username'});
     }
 
-    const isPassMatch = user.password === password;
+    const isPassMatch = user.comparePassword(user.password);
 
     if(!isPassMatch){
       return done(null,false,{message:'Incorrect Password'});
@@ -26,5 +26,6 @@ passort.use(new localStrategy(async(userName,password,done) => {
   }
 }));
 
+// through done we are telling the server go to the next middleware , same as next
 
 module.exports = passort;
